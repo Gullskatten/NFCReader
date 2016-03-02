@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">NFCReader</string>
+    <string name="nfc_info_header">Place your NFC-tag near the phone!</string>
 </resources>
