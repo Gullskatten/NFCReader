@@ -8,8 +8,6 @@ import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageView mNfcIconImageView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initImageNfcAnimation() {
-        mNfcIconImageView = (ImageView) findViewById(R.id.nfc_icon_white);
+        ImageView mNfcIconImageView = (ImageView) findViewById(R.id.nfc_icon_white);
         Animation pulse = AnimationUtils.loadAnimation(this, R.anim.scale);
         mNfcIconImageView.startAnimation(pulse);
     }
