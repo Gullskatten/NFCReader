@@ -26,4 +26,9 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_cast_connected_24dp"
         android:layout_centerInParent="true"/>
+    <TextView
+        android:id="@+id/nfc_tag_information"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/applicationPearlWhite"/>
 </RelativeLayout>
