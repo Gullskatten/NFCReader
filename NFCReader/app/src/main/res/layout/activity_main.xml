@@ -30,5 +30,8 @@
         android:id="@+id/nfc_tag_information"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/applicationPearlWhite"/>
+        android:textAlignment="center"
+        android:textColor="@color/applicationPearlWhite"
+        android:textSize="@dimen/information_text"
+        android:layout_below="@id/nfc_icon_white"/>
 </RelativeLayout>

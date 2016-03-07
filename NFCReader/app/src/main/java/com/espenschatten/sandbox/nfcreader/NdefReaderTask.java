@@ -5,8 +5,8 @@ import android.nfc.NdefRecord;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.TextView;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
@@ -27,7 +27,7 @@ public class NdefReaderTask extends AsyncTask<Tag, Void, String> {
 
         Ndef ndef = Ndef.get(tag);
         if (ndef == null) {
-
+            // NDEF is not supported by this Tag.
             return null;
         }
 
@@ -39,7 +39,7 @@ public class NdefReaderTask extends AsyncTask<Tag, Void, String> {
                 try {
                     return readText(ndefRecord);
                 } catch (UnsupportedEncodingException e) {
-                  return null;
+                    Log.e(LOG_TAG, "Unsupported Encoding", e);
                 }
             }
         }
@@ -61,7 +61,9 @@ public class NdefReaderTask extends AsyncTask<Tag, Void, String> {
         byte[] payload = record.getPayload();
 
         // Get the Text Encoding
-        String textEncoding = "UTF-8";
+        boolean lol = (payload[0] & 128) == 0;
+        String textEncoding = getString(lol);
+
 
         // Get the Language Code
         int languageCodeLength = payload[0] & 0063;
@@ -69,15 +71,22 @@ public class NdefReaderTask extends AsyncTask<Tag, Void, String> {
         // String languageCode = new String(payload, 1, languageCodeLength, "US-ASCII");
         // e.g. "en"
 
+        // Get the Text
         return new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
     }
+
+    @NonNull
+    private String getString(boolean lol) {
+        return (lol) ? "UTF-8" : "UTF-16";
+    }
+
 
     @Override
     protected void onPostExecute(String result) {
         if (result != null) {
             mListener.onNfcInformationRetrieved(result);
         } else {
-            mListener.onNfcInformationNotRetrieved(result);
+            mListener.onNfcInformationNotRetrieved("Something went horribly wrong..");
         }
     }
 }
